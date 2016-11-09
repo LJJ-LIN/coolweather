@@ -17,7 +17,7 @@ public class CoolWeatherDB {
 	//数据库名
 	private static final String DB_NAME = "cool_weather";
 	//数据库版本
-	private static final int VERSION = 1;
+	private static final int VERSION = 2;
 	private static CoolWeatherDB coolWeatherDB;
 	private SQLiteDatabase db;
 	private CoolWeatherDB(Context context) {
@@ -27,7 +27,7 @@ public class CoolWeatherDB {
 	
 	//获取CoolWeatherDB的实例
 	public synchronized static CoolWeatherDB getInstance(Context context){
-		if(coolWeatherDB ==null){
+		if(coolWeatherDB == null){
 			coolWeatherDB = new CoolWeatherDB(context);
 		}
 		return coolWeatherDB;
@@ -55,6 +55,8 @@ public class CoolWeatherDB {
 				list.add(province);
 			}while(cursor.moveToNext());
 		}
+		 if(cursor != null)
+	            cursor.close();
 		return list;
 	}
 	//把city实例存储到数据库
@@ -64,12 +66,12 @@ public class CoolWeatherDB {
 				values.put("city_name", city.getCityName());
 				values.put("city_code", city.getCityCode());
 				values.put("province_id", city.getProvinceId());
-				db.insert("Province", null, values);
+				db.insert("City", null, values);
 			}
 		}
 		//从数据库中读取某省所有的城市信息
 		public List<City> loadCities(int provinceId){
-			List<City> list = new ArrayList<City	>();
+			List<City> list = new ArrayList<City>();
 			Cursor cursor = db.query("City", null, "province_id=?", new String[]{String.valueOf(provinceId)}, null, null, null);
 			if(cursor.moveToFirst()){
 				do{
@@ -81,6 +83,8 @@ public class CoolWeatherDB {
 					list.add(city);
 				}while(cursor.moveToNext());
 			}
+			if(cursor != null)
+	            cursor.close();
 			return list;
 		}
 		//把county实例存储到数据库
@@ -90,7 +94,7 @@ public class CoolWeatherDB {
 				values.put("county_name", county.getCountyName());
 				values.put("county_code", county.getCountyCode());
 				values.put("city_id", county.getCityId());
-				db.insert("Province", null, values);
+				db.insert("County", null, values);
 			}
 		}
 		//从数据库中读取全国所有的省份信息
@@ -107,6 +111,8 @@ public class CoolWeatherDB {
 					list.add(county);
 				}while(cursor.moveToNext());
 			}
+			if(cursor != null)
+	            cursor.close();
 			return list;
 		}
 }
