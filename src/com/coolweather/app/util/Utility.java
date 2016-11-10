@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -93,7 +94,7 @@ public class Utility {
 				String weatherDesp = weatherInfo.getString("weather");
 				String publishTime = weatherInfo.getString("ptime");
 				saveWeatherInfo(context,cityName,weatherCode,temp1,temp2,weatherDesp,publishTime);
-			}catch(Exception e){
+			}catch(JSONException e){
 				e.printStackTrace();
 			}
 		}
