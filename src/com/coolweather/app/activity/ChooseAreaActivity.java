@@ -41,7 +41,7 @@ public class ChooseAreaActivity extends Activity{
 	private ArrayAdapter<String> adapter;
 	private List<String> dataList = new ArrayList<String>();
 
-	// 省列表
+	// 省列表 
 	private List<Province> provinceList;
 	// 市列表
 	private List<City> cityList;
